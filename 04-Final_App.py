@@ -19,9 +19,6 @@ flower_scaler = joblib.load("iris_scaler.pkl")
 
 def return_prediction(model,scaler,sample_json):
     
-    # For larger data features, you should probably write a for loop
-    # That builds out this array for you
-    
     s_len = sample_json['sepal_length']
     s_wid = sample_json['sepal_width']
     p_len = sample_json['petal_length']
@@ -29,9 +26,11 @@ def return_prediction(model,scaler,sample_json):
     
     flower = [[s_len,s_wid,p_len,p_wid]]
     
+    
     flower = scaler.transform(flower)
     
     classes = np.array(['setosa', 'versicolor', 'virginica'])
+    
     
     class_ind = np.argmax(model.predict(flower), axis=1)
     return classes[class_ind[0]]
@@ -98,4 +97,4 @@ def prediction():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8080)
